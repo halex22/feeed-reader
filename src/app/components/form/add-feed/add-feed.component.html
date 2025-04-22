@@ -1,50 +1,44 @@
 <form action="" [formGroup]="bigForm" (ngSubmit)="onSubmit()">
 
-  <div *ngFor="let form of addForms.controls; let i = index" [formGroupName]="i" class="add-feed" formArrayName="addFeedForms" >
+  <div *ngFor="let form of addForms.controls; let i = index" class="add-feed" formArrayName="addFeedForms" >
 
-    @for (singleForm of addForms.controls; let i = $index; track $index) {
-      <fieldset [formGroupName]="i">
+    <fieldset [formGroupName]="i">
 
-        <mat-radio-group aria-label="Select an option" formControlName="type">
-          <mat-radio-button value="reddit" class="opt-label">
-            <mat-icon matSuffix>forum</mat-icon> 
-            Subreddit
-          </mat-radio-button>
-          <mat-radio-button value="rss/xml" class="opt-label">
-            <mat-icon matSuffix>rss_feed</mat-icon> 
-            RSS/XML</mat-radio-button>
-        </mat-radio-group>
+      <mat-radio-group aria-label="Select an option" formControlName="type">
+        <mat-radio-button value="reddit" class="opt-label">
+          <mat-icon matSuffix>forum</mat-icon> 
+          Subreddit
+        </mat-radio-button>
+        <mat-radio-button value="rss/xml" class="opt-label">
+          <mat-icon matSuffix>rss_feed</mat-icon> 
+          RSS/XML</mat-radio-button>
+      </mat-radio-group>
 
-        
-      
+      <div class="field-container">
+        <mat-form-field appearance="outline">
+          <mat-label> {{ form.get('type')?.value === 'reddit' ? 'Enter sub reddit name' : 'News Provider '}}</mat-label>
+          <input matInput [placeholder]="form.get('type')?.value ==='reddit' ? 'r/...': 'name of your choice' " formControlName="name">
+          <mat-icon matSuffix>edit</mat-icon>
+          <mat-hint >Hint</mat-hint>
+        </mat-form-field>
+      </div>
+
+      @if (form.get('type')?.value !=='reddit') {
         <div class="field-container">
           <mat-form-field appearance="outline">
-            <mat-label [textContent]="feedType === 'reddit' ? 'enter reddit name': 'News provider' "></mat-label>
-            <input matInput [placeholder]="feedType === 'reddit' ? 'enter reddit name': 'News provider' " formControlName="name">
-            <mat-icon matSuffix>edit</mat-icon>
-            <mat-hint >Hint</mat-hint>
+            <mat-label>Url to request</mat-label>
+            <input matInput placeholder="Placeholder" formControlName="url">
+            <mat-icon matSuffix>link</mat-icon>
+            <mat-hint>url where the info will get fetch from</mat-hint>
           </mat-form-field>
         </div>
+      }
+      <button mat-icon-button (click)="deleteForm(i)" type="button">  
+        <!-- cambiato mat-fab con mat-icon-button -->
+        <mat-icon>delete</mat-icon>
+      </button>
+    </fieldset>
 
-        @if (!isFeedReddit) {
-          <div class="field-container">
-            <mat-form-field appearance="outline">
-              <mat-label>Url to request</mat-label>
-              <input matInput placeholder="Placeholder" formControlName="url">
-              <mat-icon matSuffix>link</mat-icon>
-              <mat-hint>url where the info will get fetch from</mat-hint>
-            </mat-form-field>
-          </div>
-        }
- 
-
-        <button mat-icon-button (click)="deleteForm(i)" type="button">  
-          <!-- cambiato mat-fab con mat-icon-button -->
-          <mat-icon>delete</mat-icon>
-        </button>
-      </fieldset>
-
-    }
   </div>
 
   <button mat-stroked-button type="button" (click)="addBlankForm()">add another feed</button>

@@ -37,7 +37,7 @@ export class AddFeedComponent  implements OnInit {
   createSingleForm() {
     return new FormGroup({
       name: new FormControl('', {
-        validators: [],
+        validators: [Validators.required, Validators.minLength(4)],
       }),
       type: new FormControl<'reddit' | 'base'>('reddit', {
         validators: [Validators.required]
@@ -95,9 +95,7 @@ export class AddFeedComponent  implements OnInit {
     return this.addForms.get('type')?.value === 'reddit'
   }
 
-  get feedType() {
-    return this.bigForm.get('type')?.value
-  }
+
 
 }
 
