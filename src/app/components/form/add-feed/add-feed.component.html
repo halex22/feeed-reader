@@ -38,8 +38,9 @@
         }
  
 
-        <button mat-fab (click)="deleteForm(i)" type="button">
-          <mat-icon>delete_outline</mat-icon>
+        <button mat-icon-button (click)="deleteForm(i)" type="button">  
+          <!-- cambiato mat-fab con mat-icon-button -->
+          <mat-icon>delete</mat-icon>
         </button>
       </fieldset>
 
