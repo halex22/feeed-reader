@@ -1,1 +1,30 @@
-<p>add-feed works!</p>
+<form action="" [formGroup]="bigForm" (ngSubmit)="onSubmit()">
+
+  <div class="add-feed" formArrayName="addFeedForms">
+
+    @for (singleForm of addForms.controls; let i = $index; track $index) {
+      <fieldset [formGroupName]="i">
+
+        <mat-radio-group aria-label="Select an option" formControlName="type">
+          <mat-radio-button value="reddit" class="opt-label">Subreddit</mat-radio-button>
+          <mat-radio-button value="rss/xml" class="opt-label">RSS/XML</mat-radio-button>
+        </mat-radio-group>
+      
+        <div>
+          <label for="">name</label>
+          <input type="text" formControlName="name">
+      
+        </div>
+        <div>
+          <label for="">Url</label>
+          <input type="text" formControlName="url">
+        </div>
+      </fieldset>
+
+    }
+  </div>
+
+  <button mat-stroked-button type="button" (click)="addBlankForm()">add another feed</button>
+  <button mat-stroked-button>save</button>
+
+</form>

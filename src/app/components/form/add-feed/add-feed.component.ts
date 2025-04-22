@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {FormGroup, FormArray, FormControl} from '@angular/forms'
+import {FormGroup, FormArray, FormControl, ReactiveFormsModule} from '@angular/forms'
+import {MatRadioModule} from '@angular/material/radio';
+import { MatButtonModule } from '@angular/material/button'
 
 @Component({
   selector: 'app-add-feed',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule, MatRadioModule, MatButtonModule],
   templateUrl: './add-feed.component.html',
   styleUrl: './add-feed.component.scss'
 })
@@ -13,8 +15,6 @@ export class AddFeedComponent  implements OnInit {
   bigForm = new FormGroup({
     addFeedForms: new FormArray([])
   })
-
-
 
   ngOnInit() {
     this.addForms.push(this.createSingleForm())
@@ -41,9 +41,17 @@ export class AddFeedComponent  implements OnInit {
     })
   }
 
-  addBlankForm() {}
+  addBlankForm() {
+    this.addForms.push(this.createSingleForm())
+  }
 
-  onSubmit() {}
+  onSubmit() {
+    console.log(this.bigForm.controls)
+  }
+
+  get daPensare(){
+    return null
+  }
 }
 
 // implement logic according to RSS or XML
