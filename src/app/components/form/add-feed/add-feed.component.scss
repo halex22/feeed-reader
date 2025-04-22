@@ -19,6 +19,13 @@ input {
 
 form {
     margin: 1rem;
+    margin-top: 1rem;
+}
+
+.add-feed {
+    max-height: 80dvh;
+    overflow: auto;
+
 }
 
 .field-container {

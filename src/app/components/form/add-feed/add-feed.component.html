@@ -6,18 +6,23 @@
       <fieldset [formGroupName]="i">
 
         <mat-radio-group aria-label="Select an option" formControlName="type">
-          <mat-radio-button value="reddit" class="opt-label">Subreddit</mat-radio-button>
-          <mat-radio-button value="rss/xml" class="opt-label">RSS/XML</mat-radio-button>
+          <mat-radio-button value="reddit" class="opt-label">
+            <mat-icon matSuffix>forum</mat-icon> 
+            Subreddit
+          </mat-radio-button>
+          <mat-radio-button value="rss/xml" class="opt-label">
+            <mat-icon matSuffix>rss_feed</mat-icon> 
+            RSS/XML</mat-radio-button>
         </mat-radio-group>
 
         
       
         <div class="field-container">
           <mat-form-field appearance="outline">
-            <mat-label>Nome</mat-label>
-            <input matInput placeholder="Placeholder" formControlName="name">
-            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-            <mat-hint>Hint</mat-hint>
+            <mat-label [textContent]="nameLabel"></mat-label>
+            <input matInput placeholder="namePlaceholder" formControlName="name">
+            <mat-icon matSuffix>edit</mat-icon>
+            <mat-hint >Hint</mat-hint>
           </mat-form-field>
         </div>
 
@@ -26,7 +31,7 @@
             <mat-form-field appearance="outline">
               <mat-label>Url to request</mat-label>
               <input matInput placeholder="Placeholder" formControlName="url">
-              <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+              <mat-icon matSuffix>link</mat-icon>
               <mat-hint>url where the info will get fetch from</mat-hint>
             </mat-form-field>
           </div>
@@ -34,7 +39,7 @@
  
 
         <button mat-fab (click)="deleteForm(i)" type="button">
-          <mat-icon>delete</mat-icon>
+          <mat-icon>delete_outline</mat-icon>
         </button>
       </fieldset>
 
