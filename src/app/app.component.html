@@ -1,8 +1,10 @@
-<!-- <app-header /> -->
+
+<app-head (sidenavBtnClicked)="openSidenav()"></app-head>
 
 <main>
-  <!-- <app-drawer /> -->
-  <app-add-feed />
+  <app-home [isSidebarOpen]="isHomeSidenavOpen"></app-home>
 
+  <!-- <app-add-feed /> -->  
+ <!-- appfeed spostata momentaneamente dentro home dentro contanitore matt per interagire con drawer -->
   <router-outlet></router-outlet>
 </main>
