@@ -1,3 +1,18 @@
+@use '@angular/material' as mat;
+
+
+.mat-mdc-radio-button {
+    // background-color: #2add5a; // colore del centro selezionato
+    width: 12px;
+    height: 12px;
+    color: purple;
+
+}
+
+.mat-mdc-radio-button .mdc-form-field label {
+    color: black; 
+  }
+
 input {
     display: block;
 }
@@ -6,6 +21,6 @@ form {
     margin: 1rem;
 }
 
-.opt-label {
-    color: green;
+.field-container {
+    margin-bottom: 1rem;
 }

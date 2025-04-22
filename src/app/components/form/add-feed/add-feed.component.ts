@@ -1,14 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {FormGroup, FormArray, FormControl, ReactiveFormsModule} from '@angular/forms'
 import {MatRadioModule} from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button'
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
 
 @Component({
   selector: 'app-add-feed',
   standalone: true,
-  imports: [ReactiveFormsModule, MatRadioModule, MatButtonModule],
+  imports: [
+    ReactiveFormsModule, MatRadioModule, MatButtonModule,
+    MatFormFieldModule, MatIconModule, MatInputModule
+  ],
   templateUrl: './add-feed.component.html',
-  styleUrl: './add-feed.component.scss'
+  styleUrl: './add-feed.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class AddFeedComponent  implements OnInit {
 
@@ -45,11 +52,17 @@ export class AddFeedComponent  implements OnInit {
     this.addForms.push(this.createSingleForm())
   }
 
+  deleteForm(innerFormId: number) {
+    if (this.addForms.length === 1) return
+    this.addForms.removeAt(innerFormId)
+  }
+
   onSubmit() {
     console.log(this.bigForm.controls)
   }
 
   get daPensare(){
+    // logica per non fare aggiungere altre form se non si ha compilato il precedente corretametne
     return null
   }
 }
