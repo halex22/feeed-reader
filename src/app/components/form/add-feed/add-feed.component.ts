@@ -65,6 +65,10 @@ export class AddFeedComponent  implements OnInit {
     // logica per non fare aggiungere altre form se non si ha compilato il precedente corretametne
     return null
   }
+
+  get isFeedReddit() {
+    return this.addForms.get('type')?.value === 'reddit'
+  }
 }
 
 // implement logic according to RSS or XML

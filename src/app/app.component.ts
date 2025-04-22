@@ -5,7 +5,7 @@ import { AddFeedComponent } from './components/form/add-feed/add-feed.component'
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AddFeedComponent],
+  imports: [AddFeedComponent, RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

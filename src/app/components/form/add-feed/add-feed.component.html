@@ -14,21 +14,24 @@
       
         <div class="field-container">
           <mat-form-field appearance="outline">
-            <mat-label>Outline form field</mat-label>
+            <mat-label>Nome</mat-label>
             <input matInput placeholder="Placeholder" formControlName="name">
             <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
             <mat-hint>Hint</mat-hint>
           </mat-form-field>
         </div>
 
-        <div class="field-container">
-          <mat-form-field appearance="outline">
-            <mat-label>Url to request</mat-label>
-            <input matInput placeholder="Placeholder" formControlName="url">
-            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-            <mat-hint>url where the info will get fetch from</mat-hint>
-          </mat-form-field>
-        </div>
+        @if (!isFeedReddit) {
+          <div class="field-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Url to request</mat-label>
+              <input matInput placeholder="Placeholder" formControlName="url">
+              <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+              <mat-hint>url where the info will get fetch from</mat-hint>
+            </mat-form-field>
+          </div>
+        }
+ 
 
         <button mat-fab (click)="deleteForm(i)" type="button">
           <mat-icon>delete</mat-icon>
