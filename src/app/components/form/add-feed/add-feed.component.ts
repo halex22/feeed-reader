@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {FormGroup, FormArray, FormControl, ReactiveFormsModule} from '@angular/forms'
+import {FormGroup, FormArray, FormControl, ReactiveFormsModule, Validators} from '@angular/forms'
 import {MatRadioModule} from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button'
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
-import { NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { isUrlValidator } from '../validators/isUrlValidator';
 
 
@@ -14,7 +14,7 @@ import { isUrlValidator } from '../validators/isUrlValidator';
   standalone: true,
   imports: [
     ReactiveFormsModule, MatRadioModule, MatButtonModule,
-    MatFormFieldModule, MatIconModule, MatInputModule, NgIf
+    MatFormFieldModule, MatIconModule, MatInputModule, CommonModule
   ],
   templateUrl: './add-feed.component.html',
   styleUrl: './add-feed.component.scss',
@@ -36,11 +36,15 @@ export class AddFeedComponent  implements OnInit {
 
   createSingleForm() {
     return new FormGroup({
-      name: new FormControl('', {}),
-      type: new FormControl<'reddit' | 'base'>('reddit'),
+      name: new FormControl('', {
+        validators: [],
+      }),
+      type: new FormControl<'reddit' | 'base'>('reddit', {
+        validators: [Validators.required]
+      }),
       url: new FormControl('', {
         // validator rgex input sia ulr https:// 
-        validators: [isUrlValidator()],
+        validators: [isUrlValidator(), Validators.required, Validators.minLength(20)],
         asyncValidators: [
           
           // fare una chiamata res => res.ok 
@@ -63,14 +67,23 @@ export class AddFeedComponent  implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.bigForm.controls)
-    for (const control in this.bigForm) {
-      if (Object.prototype.hasOwnProperty.call(this.bigForm, control)) {
-        const element = this.bigForm.get(control);
+    const formArray = this.bigForm.controls.addFeedForms
+
+    for (const control in formArray.controls) {
+      if (Object.prototype.hasOwnProperty.call(formArray.controls, control)) {
+        const element = formArray.get(control);
         console.log(element)
         
       }
     }
+
+  }
+
+  updateRadiusBtn(event: Event, formIndex: number) {
+
+    const formGroupTarget = this.addForms.get(`${formIndex}`) as FormGroup
+    console.log(formGroupTarget.controls['type'].value, 'current feed type')
+
   }
 
   get daPensare(){
@@ -82,11 +95,10 @@ export class AddFeedComponent  implements OnInit {
     return this.addForms.get('type')?.value === 'reddit'
   }
 
-  get nameLabel() {
-    return this.isFeedReddit ? '/subreddit name' : 'news provider' 
+  get feedType() {
+    return this.bigForm.get('type')?.value
   }
 
-  isInputValid() {}
 }
 
 // implement logic according to RSS or XML

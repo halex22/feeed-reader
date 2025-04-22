@@ -1,6 +1,6 @@
 <form action="" [formGroup]="bigForm" (ngSubmit)="onSubmit()">
 
-  <div class="add-feed" formArrayName="addFeedForms">
+  <div *ngFor="let form of addForms.controls; let i = index" [formGroupName]="i" class="add-feed" formArrayName="addFeedForms" >
 
     @for (singleForm of addForms.controls; let i = $index; track $index) {
       <fieldset [formGroupName]="i">
@@ -19,8 +19,8 @@
       
         <div class="field-container">
           <mat-form-field appearance="outline">
-            <mat-label [textContent]="nameLabel"></mat-label>
-            <input matInput placeholder="namePlaceholder" formControlName="name">
+            <mat-label [textContent]="feedType === 'reddit' ? 'enter reddit name': 'News provider' "></mat-label>
+            <input matInput [placeholder]="feedType === 'reddit' ? 'enter reddit name': 'News provider' " formControlName="name">
             <mat-icon matSuffix>edit</mat-icon>
             <mat-hint >Hint</mat-hint>
           </mat-form-field>
