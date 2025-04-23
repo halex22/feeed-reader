@@ -4,12 +4,13 @@ import { HeadComponent } from "./components/head/head.component";
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIcon } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MatButtonModule, RouterOutlet, HeadComponent, MatSidenavModule, MatIcon],
+  imports: [MatButtonModule, RouterOutlet, HeadComponent, MatSidenavModule, MatIcon, RouterLink],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

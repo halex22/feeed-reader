@@ -5,10 +5,12 @@
   <mat-drawer [opened]="isHomeSidenavOpen" #drawer class="sidenav" mode="push" position="start">
       
      
-      <p>Auto-resizing sidenav</p>
+     
 
       <button mat-icon-button class="fav-icon" aria-label="icon-button with fav icon">
-          <mat-icon>favorite</mat-icon>
+          <mat-icon>
+            <a [routerLink]="['favorites']">favorite</a>
+          </mat-icon>
       </button>
   </mat-drawer>
 
