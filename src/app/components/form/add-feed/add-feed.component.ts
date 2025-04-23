@@ -7,6 +7,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { isUrlValidator } from '../validators/isUrlValidator';
+import { FeedService } from '../../../services/feed.service';
+import { FeedSource } from '../../../models/feed';
 
 
 @Component({
@@ -26,6 +28,8 @@ export class AddFeedComponent  implements OnInit {
     addFeedForms: new FormArray([])
   })
 
+  constructor (private feedService: FeedService) {}
+
   ngOnInit() {
     this.addForms.push(this.createSingleForm())
   }
@@ -44,7 +48,7 @@ export class AddFeedComponent  implements OnInit {
       }),
       url: new FormControl('', {
         // validator rgex input sia ulr https:// 
-        validators: [isUrlValidator(), Validators.required, Validators.minLength(20)],
+        validators: [isUrlValidator(), Validators.minLength(20)],
         asyncValidators: [
           
           // fare una chiamata res => res.ok 
@@ -69,13 +73,42 @@ export class AddFeedComponent  implements OnInit {
   onSubmit() {
     const formArray = this.bigForm.controls.addFeedForms
 
-    for (const control in formArray.controls) {
-      if (Object.prototype.hasOwnProperty.call(formArray.controls, control)) {
-        const element = formArray.get(control);
-        console.log(element)
+    // if (this.bigForm.invalid) return
+
+    /////// qui ci arriviamo se la form è valida 
+    console.log(formArray, 'queste sono tutti i form')
+
+    for (const singleFormGroup in formArray.controls) {
+      if (Object.prototype.hasOwnProperty.call(formArray.controls, singleFormGroup)) {
+        const currentFormGroup = formArray.get(singleFormGroup);
+
+        console.log(currentFormGroup, 'current form Group')
+
+        const currentFeedTypeControl = currentFormGroup?.get('type') as FormControl
+        
+        console.log(currentFeedTypeControl.value, 'current form feed type')
+
+        if (currentFeedTypeControl.value === 'reddit') {
+          const redditName = currentFormGroup?.get('name')
+          if (redditName) {
+            const source: FeedSource = {
+              feedName: redditName.value,
+              feedUrl: `https://www.reddit.com/r/${redditName.value}.json`,
+              type: 'reddit'
+            }
+            this.feedService.addFeedSource(source)
+            // fetch(`https://www.reddit.com/r/${redditName.value}.json`)
+            // .then(res => res.json())
+            // .then(data => console.log(data))
+          }
+        }
+
         
       }
     }
+
+
+    
 
   }
 

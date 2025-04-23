@@ -4,8 +4,13 @@
 <mat-drawer-container class="container" autosize>
   <mat-drawer [opened]="isHomeSidenavOpen" #drawer class="sidenav" mode="push" position="start">
       
-     
-     
+    <ul>
+      @for (source of feedSources; track $index) {
+        <li>{{source.feedName}}</li>
+      } @empty {
+        <span>There are no feed source yet</span>
+      }
+    </ul>
 
       <button mat-icon-button class="fav-icon" aria-label="icon-button with fav icon">
           <mat-icon>
@@ -15,6 +20,7 @@
   </mat-drawer>
 
   <main>
+    <!-- qui andrebbe la lista delle news -->
     <router-outlet></router-outlet>
   </main>
 </mat-drawer-container>

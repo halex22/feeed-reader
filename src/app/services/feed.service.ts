@@ -13,7 +13,7 @@ export class FeedService {
 
   sources: FeedSource[] = []
 
-  private readonly SOURCES_KEY = ''
+  private readonly SOURCES_KEY = 'feedSources'
   private readonly FAVORITE_NEWS = 'favNews'
 
 
@@ -35,6 +35,17 @@ export class FeedService {
     
     this.feedNews = reader!.parseInfo()
 
+  }
+
+  addFeedSource(source: FeedSource) {
+    const newSources = [...this.loadFeedSources(), source]
+    localStorage.setItem(this.SOURCES_KEY, JSON.stringify(newSources))
+  }
+
+  loadFeedSources(): FeedSource[] {
+    const sources = localStorage.getItem(this.SOURCES_KEY)
+    const savedSourcesArray = JSON.parse(sources ?? '[]')
+    return savedSourcesArray
   }
 
 
