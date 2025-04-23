@@ -1,9 +1,19 @@
 
 <app-head (sidenavBtnClicked)="openSidenav()"></app-head>
 
-<main>
-  <app-home [isSidebarOpen]="isHomeSidenavOpen"></app-home>
+<mat-drawer-container class="container" autosize>
+  <mat-drawer [opened]="isHomeSidenavOpen" #drawer class="sidenav" mode="push" position="start">
+      
+     
+      <p>Auto-resizing sidenav</p>
 
- 
-  <router-outlet></router-outlet>
-</main>
+      <button mat-icon-button class="fav-icon" aria-label="icon-button with fav icon">
+          <mat-icon>favorite</mat-icon>
+      </button>
+  </mat-drawer>
+
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</mat-drawer-container>
+

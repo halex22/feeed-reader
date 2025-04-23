@@ -9,7 +9,9 @@
         <p>Auto-resizing sidenav</p>
 
         <button mat-icon-button class="fav-icon" aria-label="icon-button with fav icon">
-            <mat-icon>favorite</mat-icon>
+            <mat-icon>
+                <a [routerLink]="['favorites']">favorites</a>
+            </mat-icon>
         </button>
     </mat-drawer>
 

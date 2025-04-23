@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AddFeedComponent } from './components/form/add-feed/add-feed.component';
+import { FavComponent } from './components/fav/fav.component';
 
 export const routes: Routes = [
   // {
@@ -12,9 +13,9 @@ export const routes: Routes = [
   },
 
 
-  // {
-  //   path: 'favorites',
-  //   component: favListComponent
-  // }
+  {
+    path: 'favorites',
+    component: FavComponent,
+  }
 
 ];

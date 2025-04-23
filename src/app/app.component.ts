@@ -1,24 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AddFeedComponent } from './components/form/add-feed/add-feed.component';
 import { HeadComponent } from "./components/head/head.component";
-import { HomeComponent } from "./components/home/home.component";
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIcon } from '@angular/material/icon';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AddFeedComponent, RouterOutlet, HeadComponent, HomeComponent],
+  imports: [MatButtonModule, RouterOutlet, HeadComponent, MatSidenavModule, MatIcon],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+
+  showFiller = false;
   title = 'feeed-reader';
 
-  
+
   isHomeSidenavOpen = false;
+  
 
   openSidenav() {
     this.isHomeSidenavOpen = !this.isHomeSidenavOpen
   }
-}
+
+
+  isSidebarOpen = input(false);
+
+ }
