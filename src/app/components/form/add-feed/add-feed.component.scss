@@ -1,33 +1,30 @@
-@use '@angular/material' as mat;
-
+@use "@angular/material" as mat;
 
 .mat-mdc-radio-button {
-    // background-color: #2add5a; // colore del centro selezionato
-    width: 12px;
-    height: 12px;
-    color: purple;
-
+  // background-color: #2add5a; // colore del centro selezionato
+  width: 12px;
+  height: 12px;
+  color: purple;
 }
 
 .mat-mdc-radio-button .mdc-form-field label {
-    // color: black; 
+    color: black; 
   }
 
 input {
-    display: block;
+  display: block;
 }
 
 form {
-    margin: 1rem;
-    margin-top: 1rem;
+  margin: 1rem;
+  margin-top: 1rem;
+  max-height: 80dvh;
 }
 
 .add-feed {
-   
-    overflow: auto;
-
+  overflow: auto;
 }
 
 .field-container {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }

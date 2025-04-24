@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Feed, FeedSource } from '../models/feed';
-import { RedditReader } from '../models/redditReader';
 import { RssReader } from '../models/rssReader';
+import { RedditReader } from '../models/redditReader';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +46,14 @@ export class FeedService {
     const sources = localStorage.getItem(this.SOURCES_KEY)
     const savedSourcesArray = JSON.parse(sources ?? '[]')
     return savedSourcesArray
+  }
+
+  fetchFeedNews(feedName: string): Promise<Feed[]> {
+    const sources = this.loadFeedSources()
+    const targetFeedSource = sources.find(source => source.feedName === feedName)
+    if (!targetFeedSource) throw new Error('No such feed in storage')
+    const reader = new RedditReader(targetFeedSource!.feedUrl)
+    return reader.fetchInfo()
   }
 
 
