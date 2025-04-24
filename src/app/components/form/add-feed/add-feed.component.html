@@ -20,8 +20,8 @@
           <input matInput [placeholder]="form.get('type')?.value ==='reddit' ? 'r/...': 'name of your choice' " formControlName="name">
           <mat-icon matSuffix>edit</mat-icon>
           <mat-hint >
-            @for (controlError of logAFormGroup(form , 'name'); track $index) {
-              <p> input error(s):{{controlError}}</p>
+            @for (errorMsg of logAFormGroup(form , 'name'); track $index) {
+              <span>{{errorMsg}}</span>
             }
           </mat-hint>
         </mat-form-field>
@@ -35,12 +35,18 @@
             <mat-label>Url to request</mat-label>
             <input matInput placeholder="Placeholder" formControlName="url">
             <mat-icon matSuffix>link</mat-icon>
-            <mat-hint>url where the info will get fetch from</mat-hint>
+            <mat-hint>
+              @for (errorMsg of logAFormGroup(form , 'url'); track errorMsg) {
+                <span>{{errorMsg}}</span>
+              }
+            </mat-hint>
           </mat-form-field>
         </div>
+
+        <p></p>
       }
 
-      <p>{{logAFormGroup(form , 'url')}}</p>
+      
 
       <button mat-icon-button (click)="deleteForm(i)" type="button">  
         <!-- cambiato mat-fab con mat-icon-button -->

@@ -16,6 +16,9 @@ import { CommonModule } from '@angular/common';
 import { isUrlValidator } from '../validators/isUrlValidator';
 import { FeedService } from '../../../services/feed.service';
 import { FeedSource } from '../../../models/feed';
+import { isRequired } from '../validators/required';
+import { minNameLength } from '../validators/minLength';
+import { includesEmptySpaces } from '../validators/emptySpaces';
 
 @Component({
   selector: 'app-add-feed',
@@ -51,14 +54,13 @@ export class AddFeedComponent implements OnInit {
   createSingleForm() {
     return new FormGroup({
       name: new FormControl('', {
-        validators: [Validators.required, Validators.minLength(4)],
+        validators: [isRequired(), minNameLength(), includesEmptySpaces()],
       }),
       type: new FormControl<'reddit' | 'base'>('reddit', {
-        validators: [Validators.required],
+        validators: [isRequired()],
       }),
       url: new FormControl('', {
-        // validator rgex input sia ulr https://
-        validators: [isUrlValidator(), Validators.minLength(20)],
+        validators: [isUrlValidator()],
         asyncValidators: [
           // fare una chiamata res => res.ok
           // abbia una risposta sensata
@@ -110,7 +112,7 @@ export class AddFeedComponent implements OnInit {
     // if (currentGroup.get(controlName)?.errors) {
     //   return Object.keys(currentGroup.get(controlName)?.errors ?? {noErrors:true}) 
     // }
-    return Object.keys(currentGroup.get(controlName)?.errors ?? {noErrors:true}) 
+    return Object.values(currentGroup.get(controlName)?.errors ?? {noErrors:true}) 
     
   }
 
