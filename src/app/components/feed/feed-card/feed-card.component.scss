@@ -1,0 +1,49 @@
+.example-card {
+  margin: 1rem;
+  padding: 1rem;
+  min-width: 400px;
+}
+
+mat-card-header {
+  padding-bottom: 1rem;
+}
+
+mat-card-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+mat-card-subtitle {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+
+mat-card-content {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+
+.left-content {
+    display: flex;
+    flex-direction: column;
+  
+    
+  } 
+
+  .left-content img{
+   width: 150px;
+    height: auto;
+  } 
+.right-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    flex: 1;
+    align-items: flex-end;
+    gap: 4px;
+  }

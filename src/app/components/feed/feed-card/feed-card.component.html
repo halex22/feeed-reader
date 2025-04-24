@@ -1,1 +1,43 @@
-<p>feed-card works!</p>
+<mat-card class="example-card" appearance="outlined" *ngFor="let post of redditData.data.children">
+
+    <mat-card-header>
+        <mat-card-title-group>
+            <mat-card-title>{{ post.data.title }}</mat-card-title>
+        </mat-card-title-group>
+    </mat-card-header>
+
+    <mat-card-content>
+        <div class="left-content">
+            <img mat-card-md-image src="reddit-icon-25869.png" alt="Placeholder image">
+            <p>Created: {{ post.data.created_utc}}</p>
+            <p>Comments: {{ post.data.num_comments }}</p>
+            <p>
+                by {{ post.data.author }}
+            </p>
+        </div>
+
+
+        <div class="btn" class="right-content">
+            <button mat-icon-button class="card-icon" aria-label="Example icon-button with share icon">
+                <mat-icon>
+                    <a href="{{ post.data.url }}" target="_blank">open_in_new</a>
+                </mat-icon>
+            </button>
+
+            <button mat-icon-button class="card-icon" aria-label="Example icon-button with share icon">
+                <mat-icon>
+                    <a>share</a>
+                </mat-icon>
+            </button>
+
+            <button mat-icon-button class="card-icon" aria-label="Example icon-button with share icon">
+                <mat-icon>
+                    <a>favorite</a>
+                </mat-icon>
+            </button>
+
+        </div>
+
+    </mat-card-content>
+
+</mat-card>
