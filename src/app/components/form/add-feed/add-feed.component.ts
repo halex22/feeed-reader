@@ -128,7 +128,6 @@ export class AddFeedComponent implements OnInit {
     // if (this.bigForm.invalid) return
 
     /////// qui ci arriviamo se la form è valida
-    console.log(formArray, 'queste sono tutti i form');
 
     for (const singleFormGroup in this.feedFormsArrayControls) {
       if (Object.prototype.hasOwnProperty.call(this.feedFormsArrayControls, singleFormGroup)) {
@@ -146,6 +145,10 @@ export class AddFeedComponent implements OnInit {
         } else {
           newFeedSource = this.handleRssFeedCreation(currentFormGroup!)
         }
+
+        this.feedService.addFeedSource(newFeedSource)
+
+
       }
     }
   }
