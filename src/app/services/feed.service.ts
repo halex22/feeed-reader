@@ -33,7 +33,7 @@ export class FeedService {
       reader = new RssReader(source.feedUrl)
     }
     
-    this.feedNews = reader!.parseInfo()
+    // this.feedNews = reader!.parseInfo()
 
   }
 

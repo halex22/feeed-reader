@@ -5,14 +5,14 @@ export abstract class CommonReader {
   rawInfo: any
 
   constructor(protected url: string, protected isJson: boolean) { 
-    this.fetchInfo()
+    // this.fetchInfo()
   }
 
   fetchInfo(): Promise<Feed[]> {
     return fetch(this.url)
-    .then(res => this.isJson ? res.json() : res.text())
+    .then(res =>  this.isJson ? res.json() : res.text())
     .then(data => {
-      console.log(data)
+      // return data
       return this.parseInfo(data)
     })
   }
