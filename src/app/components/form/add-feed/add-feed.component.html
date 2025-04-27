@@ -19,11 +19,14 @@
           <mat-label> {{ form.get('type')?.value === 'reddit' ? 'Enter sub reddit name' : 'News Provider '}}</mat-label>
           <input matInput [placeholder]="form.get('type')?.value ==='reddit' ? 'r/...': 'name of your choice' " formControlName="name">
           <mat-icon matSuffix>edit</mat-icon>
-          <mat-hint >
-            @for (errorMsg of logAFormGroup(form , 'name'); track $index) {
-              <span>{{errorMsg}}</span>
-            }
-          </mat-hint>
+          @if (form.touched && form.dirty) {
+            <mat-hint >
+              @for (errorMsg of logAFormGroup(form , 'name'); track $index) {
+                <span>{{errorMsg}}</span>
+              }
+            </mat-hint>
+          }
+          
         </mat-form-field>
       </div>
       <!-- <p>{{logAFormGroup(form , 'name')}}</p> -->

@@ -60,7 +60,7 @@ export class AddFeedComponent implements OnInit {
         validators: [isRequired()],
       }),
       url: new FormControl('', {
-        validators: [isUrlValidator()],
+        validators: [isUrlValidator(), isRequired()],
         asyncValidators: [
           // fare una chiamata res => res.ok
           // abbia una risposta sensata
@@ -88,7 +88,6 @@ export class AddFeedComponent implements OnInit {
       console.log('logging ', i , 'feed form')
       const singleForm = formGroup as FormGroup
       this.logSingleFormErrors(singleForm)
-      console.log('--------------------------------------------------')
     })
 
   }
@@ -124,7 +123,7 @@ export class AddFeedComponent implements OnInit {
     const formArray = this.bigForm.controls.addFeedForms;
 
     console.log(this.bigForm.errors)
-    this.logFormErrors()
+    // this.logFormErrors()
     // if (this.bigForm.invalid) return
 
     /////// qui ci arriviamo se la form è valida
@@ -134,10 +133,14 @@ export class AddFeedComponent implements OnInit {
         const currentFormGroup = formArray.get(singleFormGroup);
 
         console.log(currentFormGroup, 'current form Group');
+        // console.error(currentFormGroup?.value.type)
+        const urlControl = currentFormGroup?.get('url') as FormControl
+        urlControl.removeValidators([isUrlValidator(),isRequired()])
 
+        console.error(urlControl?.errors)
         const currentFeedTypeControl = currentFormGroup?.get('type') as FormControl;
 
-        console.log(currentFeedTypeControl.value, 'current form feed type');
+        // console.log(currentFeedTypeControl.value, 'current form feed type');
 
         let newFeedSource: FeedSource
         if (currentFeedTypeControl.value === 'reddit') {
@@ -146,7 +149,7 @@ export class AddFeedComponent implements OnInit {
           newFeedSource = this.handleRssFeedCreation(currentFormGroup!)
         }
 
-        this.feedService.addFeedSource(newFeedSource)
+        // this.feedService.addFeedSource(newFeedSource)
 
 
       }
