@@ -2,6 +2,12 @@
     <button (click)="emitSidenavClick()" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
       <mat-icon>menu</mat-icon>
     </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+      <mat-icon>
+        <a [routerLink]="['']">home</a>
+      </mat-icon>
+    </button>
+    
     <span>Feeed-reader</span>
     <span class="example-spacer"></span>
     

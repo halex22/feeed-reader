@@ -6,7 +6,7 @@
       
     <ul>
       @for (source of feedSources; track $index) {
-        <li>{{source.feedName}}</li>
+        <li [routerLink]="['feed/:feedName']">{{source.feedName}}</li>
       } @empty {
         <span>There are no feed source yet</span>
       }
