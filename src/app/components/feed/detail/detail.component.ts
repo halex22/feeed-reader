@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Input } from '@angular/core';
 import { FeedService } from '../../../services/feed.service';
-
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-detail',
@@ -13,7 +13,7 @@ import { FeedService } from '../../../services/feed.service';
 export class DetailComponent {
   @Input() feedName!: string 
 
-  constructor(private feedService: FeedService) {
+  constructor(private feedService: FeedService, private route: ActivatedRoute) {
     this.feedService.fetchFeedNews(this.feedName)
     .then(data => console.log(data)) // questo metodo ti torna una promesa con le news poi vanno messe in un attr della classe per essere usati nel HTML
   }
