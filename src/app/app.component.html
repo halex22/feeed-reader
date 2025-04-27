@@ -7,7 +7,7 @@
     <ul>
       @for (source of feedSources; track $index) {
         <li>
-          <a mat-list-item [routerLink]="['feed/', source.feedName]">
+          <a mat-list-item [routerLink]="['/feed', source.feedName]">
             {{source.feedName}}
           </a>
       } @empty {
