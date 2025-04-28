@@ -60,7 +60,7 @@ export class AddFeedComponent implements OnInit {
         validators: [isRequired()],
       }),
       url: new FormControl('', {
-        validators: [isUrlValidator(), isRequired()],
+        validators: [],
         asyncValidators: [
           // fare una chiamata res => res.ok
           // abbia una risposta sensata
@@ -149,7 +149,7 @@ export class AddFeedComponent implements OnInit {
           newFeedSource = this.handleRssFeedCreation(currentFormGroup!)
         }
 
-        // this.feedService.addFeedSource(newFeedSource)
+        this.feedService.addFeedSource(newFeedSource)
 
 
       }
