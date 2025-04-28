@@ -56,5 +56,16 @@ export class FeedService {
     return reader.fetchInfo()
   }
 
+  loadSavedNews(): Feed[] {
+    const savedNews = localStorage.getItem(this.FAVORITE_NEWS)
+    return JSON.parse(savedNews ?? '[]') 
+  }
+
+  saveNew(feedToSave: Feed):void {
+    const prevFav = this.loadSavedNews()
+    const newFav = [...prevFav, feedToSave]
+    localStorage.setItem(this.FAVORITE_NEWS, JSON.stringify(newFav))
+  }
+
 
 }
