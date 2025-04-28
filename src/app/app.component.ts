@@ -47,7 +47,7 @@ export class AppComponent {
       } else {
         reader = new RssReader(feedUrl)
       }
-      this.feedNews.set(reader.parseInfo())
+      // this.feedNews.set(reader.parseInfo())
     }
   }
   

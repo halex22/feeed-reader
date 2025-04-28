@@ -16,10 +16,12 @@ export const routes: Routes = [
   {
     path: 'favorites',
     component: FavComponent,
+    title: 'Favorite Feeds'
   },
-  
   {
-       path: 'feed/:feedName',
-       component: DetailComponent
-     }
+    path: 'feed/:feedName',
+    component: DetailComponent, 
+    title: 'feed'
+  }
+
 ];

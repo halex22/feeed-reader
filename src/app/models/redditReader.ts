@@ -8,11 +8,12 @@ export class RedditReader extends CommonReader {
     super(url, true)
   }
 
-  override parseInfo(): Feed[] {
-    const info = this.rawInfo as RedditResponse
+  override parseInfo(data: any): Feed[] {
+    const info = data as RedditResponse
+    console.log(info)
     const feedArray: Feed[] = []
     info.data.children.forEach( record => {
-      console.log(record.data.title)
+      // console.log(record.data.title)
       feedArray.push({
         img: record.data.thumbnail,
         title: record.data.title,
