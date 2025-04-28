@@ -10,12 +10,13 @@ import { FeedService } from './services/feed.service';
 import { Feed } from './models/feed';
 import { RedditReader } from './models/redditReader';
 import { RssReader } from './models/rssReader';
+import { FeedListComponent } from "./components/feed/feed-list/feed-list.component";
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MatButtonModule, RouterOutlet, HeadComponent, MatSidenavModule, MatIcon, RouterLink],
+  imports: [MatButtonModule, RouterOutlet, HeadComponent, MatSidenavModule, MatIcon, RouterLink, FeedListComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

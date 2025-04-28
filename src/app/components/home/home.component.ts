@@ -1,30 +1,29 @@
-import { Component, inject, input } from '@angular/core';
-import {MatButtonModule} from '@angular/material/button';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import { MatIcon } from '@angular/material/icon';
-import { signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { Feed } from '../../models/feed';
 import { FeedService } from '../../services/feed.service';
-import { FeedSource } from '../../models/feed';
-import { RouterLink } from '@angular/router';
+import { FeedListComponent } from '../feed/feed-list/feed-list.component';
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MatButtonModule, MatSidenavModule, MatIcon, RouterLink],
+  imports: [FeedListComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
   
-  isSidebarOpen = input(false);
 
+  feedNews = signal<Feed[]>([])
 
-  sources: FeedSource[]
-  feedService = inject(FeedService)
-
-  constructor() {
-    this.sources = this.feedService.sources
+  constructor(private feedService: FeedService) {
+    const sources = this.feedService.loadFeedSources()
+    sources.forEach(source => {
+      this.feedService.fetchFeedNews(source.feedName)
+      .then(data => {
+        this.feedNews.update(prev => [...prev, ...data])
+      })
+    })
   }
 
 }

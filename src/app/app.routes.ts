@@ -3,11 +3,18 @@ import { AddFeedComponent } from './components/form/add-feed/add-feed.component'
 import { FavComponent } from './components/fav/fav.component';
 import { FeedListComponent } from './components/feed/feed-list/feed-list.component';
 import { DetailComponent } from './components/feed/detail/detail.component';
+import { HomeComponent } from './components/home/home.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: FeedListComponent
+    redirectTo: 'home',
+    pathMatch: 'prefix'
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
+    title: 'Home'
   },
   {
     path: 'add',
@@ -23,5 +30,4 @@ export const routes: Routes = [
     component: DetailComponent, 
     title: 'feed'
   }
-
 ];
