@@ -4,7 +4,6 @@ import {
   FormArray,
   FormControl,
   ReactiveFormsModule,
-  Validators,
   AbstractControl,
 } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
@@ -19,6 +18,7 @@ import { FeedSource } from '../../../models/feed';
 import { isRequired } from '../validators/required';
 import { minNameLength } from '../validators/minLength';
 import { includesEmptySpaces } from '../validators/emptySpaces';
+import { validateSubredditWithPromise } from '../validators/async/isValidReddit';
 
 @Component({
   selector: 'app-add-feed',
@@ -60,12 +60,8 @@ export class AddFeedComponent implements OnInit {
         validators: [isRequired()],
       }),
       url: new FormControl('', {
-        validators: [isRequired()],
-        asyncValidators: [
-          // fare una chiamata res => res.ok
-          // abbia una risposta sensata
-        ],
-        updateOn: 'blur',
+        validators: [],
+        updateOn: 'submit',
       }),
       alias: new FormControl(''),
     });
@@ -107,7 +103,7 @@ export class AddFeedComponent implements OnInit {
   logAFormGroup(group: AbstractControl, controlName: string) {
     const errors = []
     const currentGroup = group as FormGroup
-    console.log(currentGroup.get(controlName)?.errors, controlName)
+    // console.log(currentGroup.get(controlName)?.errors, controlName)
     // if (currentGroup.get(controlName)?.errors) {
     //   return Object.keys(currentGroup.get(controlName)?.errors ?? {noErrors:true}) 
     // }
@@ -122,53 +118,46 @@ export class AddFeedComponent implements OnInit {
   onSubmit() {
     const formArray = this.bigForm.controls.addFeedForms;
 
-    // console.log(this.bigForm.errors)
-    // this.logFormErrors()
-    // if (this.bigForm.invalid) return
-
-    /////// qui ci arriviamo se la form è valida
 
     for (const singleFormGroup in this.feedFormsArrayControls) {
       if (Object.prototype.hasOwnProperty.call(this.feedFormsArrayControls, singleFormGroup)) {
         const currentFormGroup = formArray.get(singleFormGroup) as FormGroup;
 
         console.log(currentFormGroup, 'current form Group');
+        const currentFeedTypeControl = currentFormGroup.get('type')!.value
+        this.handleFormControlValidators(currentFeedTypeControl, currentFormGroup)
 
-        this.handleFormControlValidators(currentFormGroup)
-        // console.error(currentFormGroup?.value.type)
+        if (currentFormGroup.invalid) return
 
-        const urlControl = currentFormGroup?.get('url') as FormControl
-        urlControl.removeValidators([isUrlValidator(),isRequired()])
-        console.log(urlControl?.validator)
-        console.error(urlControl?.errors)
-        const currentFeedTypeControl = currentFormGroup?.get('type') as FormControl;
-
-        // console.log(currentFeedTypeControl.value, 'current form feed type');
+        console.log('can proceed')
 
         let newFeedSource: FeedSource
-        if (currentFeedTypeControl.value === 'reddit') {
+
+        if (currentFeedTypeControl === 'reddit') {
           newFeedSource = this.handleRedditFeedCreation(currentFormGroup!)
         } else {
           newFeedSource = this.handleRssFeedCreation(currentFormGroup!)
         }
-        // this.feedService.addFeedSource(newFeedSource)
+
+        console.log(newFeedSource)
+        this.feedService.addFeedSource(newFeedSource)
 
       }
     }
   }
 
-  handleFormControlValidators(innerForm: FormGroup) {
+  handleFormControlValidators(inputType:string, innerForm: FormGroup) {
     const nameControl = innerForm.get('name')! as FormControl
-    const type = innerForm.get('type')!.value
     const urlControl = innerForm.get('url')! as FormControl
-    console.log(nameControl.value)
-    console.log(type)
 
-    if (type === 'reddit') {
-      // urlControl.clearValidators()
-      // urlControl.clearAsyncValidators()
-      // urlControl.updateValueAndValidity()
-    } 
+
+    if (inputType === 'reddit') {
+      nameControl.setAsyncValidators([validateSubredditWithPromise()])
+      nameControl.updateValueAndValidity()
+    } else {
+      urlControl.setValidators([isRequired()])
+      urlControl.updateValueAndValidity()
+    }
 
   }
 
@@ -190,15 +179,5 @@ export class AddFeedComponent implements OnInit {
       type: 'rss'
     }
   }
-
-  // updateRadiusBtn(event: Event, formIndex: number) {
-  //   const formGroupTarget = this.addForms.get(`${formIndex}`) as FormGroup;
-  //   console.log(formGroupTarget.controls['type'].value, 'current feed type');
-  // }
-
-  // get daPensare() {
-  //   // logica per non fare aggiungere altre form se non si ha compilato il precedente corretametne
-  //   return null;
-  // }
 
 }
