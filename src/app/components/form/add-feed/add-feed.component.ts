@@ -60,7 +60,7 @@ export class AddFeedComponent implements OnInit {
         validators: [isRequired()],
       }),
       url: new FormControl('', {
-        validators: [],
+        validators: [isRequired()],
         asyncValidators: [
           // fare una chiamata res => res.ok
           // abbia una risposta sensata
@@ -122,7 +122,7 @@ export class AddFeedComponent implements OnInit {
   onSubmit() {
     const formArray = this.bigForm.controls.addFeedForms;
 
-    console.log(this.bigForm.errors)
+    // console.log(this.bigForm.errors)
     // this.logFormErrors()
     // if (this.bigForm.invalid) return
 
@@ -130,13 +130,16 @@ export class AddFeedComponent implements OnInit {
 
     for (const singleFormGroup in this.feedFormsArrayControls) {
       if (Object.prototype.hasOwnProperty.call(this.feedFormsArrayControls, singleFormGroup)) {
-        const currentFormGroup = formArray.get(singleFormGroup);
+        const currentFormGroup = formArray.get(singleFormGroup) as FormGroup;
 
         console.log(currentFormGroup, 'current form Group');
+
+        this.handleFormControlValidators(currentFormGroup)
         // console.error(currentFormGroup?.value.type)
+
         const urlControl = currentFormGroup?.get('url') as FormControl
         urlControl.removeValidators([isUrlValidator(),isRequired()])
-
+        console.log(urlControl?.validator)
         console.error(urlControl?.errors)
         const currentFeedTypeControl = currentFormGroup?.get('type') as FormControl;
 
@@ -148,12 +151,25 @@ export class AddFeedComponent implements OnInit {
         } else {
           newFeedSource = this.handleRssFeedCreation(currentFormGroup!)
         }
-
-        this.feedService.addFeedSource(newFeedSource)
-
+        // this.feedService.addFeedSource(newFeedSource)
 
       }
     }
+  }
+
+  handleFormControlValidators(innerForm: FormGroup) {
+    const nameControl = innerForm.get('name')! as FormControl
+    const type = innerForm.get('type')!.value
+    const urlControl = innerForm.get('url')! as FormControl
+    console.log(nameControl.value)
+    console.log(type)
+
+    if (type === 'reddit') {
+      // urlControl.clearValidators()
+      // urlControl.clearAsyncValidators()
+      // urlControl.updateValueAndValidity()
+    } 
+
   }
 
   private handleRedditFeedCreation(control: AbstractControl): FeedSource {
@@ -175,14 +191,14 @@ export class AddFeedComponent implements OnInit {
     }
   }
 
-  updateRadiusBtn(event: Event, formIndex: number) {
-    const formGroupTarget = this.addForms.get(`${formIndex}`) as FormGroup;
-    console.log(formGroupTarget.controls['type'].value, 'current feed type');
-  }
+  // updateRadiusBtn(event: Event, formIndex: number) {
+  //   const formGroupTarget = this.addForms.get(`${formIndex}`) as FormGroup;
+  //   console.log(formGroupTarget.controls['type'].value, 'current feed type');
+  // }
 
-  get daPensare() {
-    // logica per non fare aggiungere altre form se non si ha compilato il precedente corretametne
-    return null;
-  }
+  // get daPensare() {
+  //   // logica per non fare aggiungere altre form se non si ha compilato il precedente corretametne
+  //   return null;
+  // }
 
 }
