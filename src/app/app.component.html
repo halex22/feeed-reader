@@ -1,7 +1,7 @@
 
 <app-head (sidenavBtnClicked)="openSidenav()"></app-head>
 
-<mat-drawer-container class="container" autosize>
+<mat-drawer-container class="container" autosize [hasBackdrop]="false">
   <mat-drawer [opened]="isHomeSidenavOpen" #drawer class="sidenav" mode="push" position="start">
       
     <ul>
