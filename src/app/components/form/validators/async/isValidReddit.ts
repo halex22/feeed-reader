@@ -19,7 +19,7 @@ export function validateSubredditWithPromise(): AsyncValidatorFn {
         }
       })
       .catch(() => {
-        return { invalidSubreddit: 'could not validate subreddit please try latter' }
+        return { invalidSubreddit: 'could not validate subreddit please try later' }
       })
   };
 }

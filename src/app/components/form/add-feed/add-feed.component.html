@@ -22,7 +22,7 @@
           @if (form.touched && form.dirty) {
             <mat-hint >
               @for (errorMsg of logAFormGroup(form , 'name'); track $index) {
-                <span>{{errorMsg}}</span>
+                <span class="err-msg">{{errorMsg}}</span>
               }
             </mat-hint>
           }
@@ -40,7 +40,7 @@
             <mat-icon matSuffix>link</mat-icon>
             <mat-hint>
               @for (errorMsg of logAFormGroup(form , 'url'); track errorMsg) {
-                <span>{{errorMsg}}</span>
+                <span class="err-msg">{{errorMsg}}</span>
               }
             </mat-hint>
           </mat-form-field>
