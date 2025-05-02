@@ -4,13 +4,17 @@
   // background-color: #2add5a; // colore del centro selezionato
   width: 12px;
   height: 12px;
-  color: purple;
+  
 }
 
 .mat-mdc-radio-button .mdc-form-field label {
     color: rgb(173, 171, 171); 
   }
+  
 
+.err-msg {
+  background-color: aqua;
+}
 input {
   display: block;
 }
@@ -23,14 +27,35 @@ form {
 
 .add-feed {
   overflow: auto;
+ margin-bottom: 1rem;
+ margin-top: 1rem;
+
 }
 
-.field-container {
+.fieldset-container  {
   margin-bottom: 1rem;
+  
+  border-radius: 16px;
+  position: relative; 
+  padding-right: 48px; 
+  padding-bottom: 20px;
+  
+}
+
+.fieldset-container .delete-btn {
+  position: absolute;
+  right: 0;
+  top: 50%; 
+  transform: translateY(-50%); 
+  margin-top: 8px; 
+  margin-right: 8px;
 }
 
 
 .mat-drawer{
   border-radius: 0px;
 }
+
+
+
 

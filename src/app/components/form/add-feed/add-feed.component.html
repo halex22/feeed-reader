@@ -2,7 +2,7 @@
 
   <div *ngFor="let form of addForms.controls; let i = index" class="add-feed" formArrayName="addFeedForms" >
 
-    <fieldset [formGroupName]="i">
+    <fieldset class="fieldset-container" [formGroupName]="i">
 
       <mat-radio-group aria-label="Select an option" formControlName="type">
         <mat-radio-button value="reddit" class="opt-label">
@@ -51,15 +51,14 @@
 
       
 
-      <button mat-icon-button (click)="deleteForm(i)" type="button">  
-        <!-- cambiato mat-fab con mat-icon-button -->
-        <mat-icon>delete</mat-icon>
+      <button mat-icon-button class="delete-btn" (click)="deleteForm(i)" type="button">
+        <mat-icon class="btn-delete">delete</mat-icon>
       </button>
     </fieldset>
 
   </div>
 
-  <button mat-stroked-button type="button" (click)="addBlankForm()">add another feed</button>
-  <button mat-stroked-button>save</button>
+  <button mat-stroked-button class="btn-offDiv" type="button" (click)="addBlankForm()">add another feed</button>
+  <button mat-stroked-button class="btn-offDiv">save</button>
 
 </form>
