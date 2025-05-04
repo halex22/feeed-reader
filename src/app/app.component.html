@@ -6,10 +6,16 @@
       
     <ul>
       @for (source of feedSources; track $index) {
-        <li>
+        
+        <li class="feed-container">
           <a mat-list-item [routerLink]="['/feed', source.feedName]">
             {{source.feedName}}
           </a>
+          <div class="feed-options">
+            <mat-icon>delete</mat-icon>
+            <mat-icon>edit</mat-icon>
+          </div>
+        </li>
       } @empty {
         <span>There are no feed source yet</span>
       }

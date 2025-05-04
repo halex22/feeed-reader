@@ -1,3 +1,13 @@
 main {
     min-height: 100dvh;
 }
+
+.feed-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.feed-options {
+    display: flex;
+    align-items: center;
+}

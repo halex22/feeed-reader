@@ -21,9 +21,9 @@
           <mat-icon matSuffix>edit</mat-icon>
           @if (form.touched && form.dirty) {
             <mat-hint >
-              @for (errorMsg of logAFormGroup(form , 'name'); track $index) {
+              <!-- @for (errorMsg of logAFormGroup(form , 'name'); track $index) {
                 <span class="err-msg">{{errorMsg}}</span>
-              }
+              } -->
             </mat-hint>
           }
           
@@ -39,9 +39,9 @@
             <input matInput placeholder="Placeholder" formControlName="url">
             <mat-icon matSuffix>link</mat-icon>
             <mat-hint>
-              @for (errorMsg of logAFormGroup(form , 'url'); track errorMsg) {
+              <!-- @for (errorMsg of logAFormGroup(form , 'url'); track errorMsg) {
                 <span class="err-msg">{{errorMsg}}</span>
-              }
+              } -->
             </mat-hint>
           </mat-form-field>
         </div>

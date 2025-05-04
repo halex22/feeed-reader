@@ -19,6 +19,8 @@ import { isRequired } from '../validators/required';
 import { minNameLength } from '../validators/minLength';
 import { includesEmptySpaces } from '../validators/emptySpaces';
 import { validateSubredditWithPromise } from '../validators/async/isValidReddit';
+import { isHealthyUrl } from '../validators/async/ishealthyLink';
+import { SubredditValidatorService } from '../validators/async/test';
 
 @Component({
   selector: 'app-add-feed',
@@ -37,11 +39,12 @@ import { validateSubredditWithPromise } from '../validators/async/isValidReddit'
   encapsulation: ViewEncapsulation.None,
 })
 export class AddFeedComponent implements OnInit {
+
   bigForm = new FormGroup({
     addFeedForms: new FormArray([]),
   });
 
-  constructor(private feedService: FeedService) {}
+  constructor(private feedService: FeedService, private subredditValidator: SubredditValidatorService) {}
 
   ngOnInit() {
     this.addForms.push(this.createSingleForm());
@@ -51,20 +54,28 @@ export class AddFeedComponent implements OnInit {
     return this.bigForm.get('addFeedForms') as FormArray;
   }
 
-  createSingleForm() {
-    return new FormGroup({
+  createSingleForm(): FormGroup {
+    const group = new FormGroup({
       name: new FormControl('', {
         validators: [isRequired(), minNameLength(), includesEmptySpaces()],
+        // asyncValidators: [this.subredditValidator.validateSubredditDebounced()],
       }),
       type: new FormControl<'reddit' | 'base'>('reddit', {
         validators: [isRequired()],
       }),
       url: new FormControl('', {
-        validators: [],
-        updateOn: 'submit',
+        validators: [isRequired()],
       }),
-      alias: new FormControl(''),
     });
+
+    group.get('type')!.valueChanges.subscribe(type => {
+      console.log('changing...')
+      this.handleGroupValidator(type!, group)
+    })
+
+    this.handleGroupValidator(group.get('type')!.value!, group)
+
+    return group
   }
 
   addBlankForm() {
@@ -76,39 +87,11 @@ export class AddFeedComponent implements OnInit {
     this.addForms.removeAt(innerFormId);
   }
 
-  logFormErrors() {
-
-    console.info('debugging section')
-    
-    this.feedFormsArrayControls.forEach((formGroup, i) => {
-      console.log('logging ', i , 'feed form')
-      const singleForm = formGroup as FormGroup
-      this.logSingleFormErrors(singleForm)
-    })
-
-  }
-
-  logSingleFormErrors(group: FormGroup) {
-    for (const key in group.controls) {
-      if (Object.prototype.hasOwnProperty.call(group.controls, key)) {
-        const formControl = group.get(key);
-        if (formControl?.errors) {
-          console.log('errors found at key ', key)
-          console.log(formControl.errors)
-        }
-      }
-    }
-  }
 
   logAFormGroup(group: AbstractControl, controlName: string) {
     const errors = []
     const currentGroup = group as FormGroup
-    // console.log(currentGroup.get(controlName)?.errors, controlName)
-    // if (currentGroup.get(controlName)?.errors) {
-    //   return Object.keys(currentGroup.get(controlName)?.errors ?? {noErrors:true}) 
-    // }
-    return Object.values(currentGroup.get(controlName)?.errors ?? {noErrors:true}) 
-    
+    return Object.values(currentGroup.get(controlName)?.errors ?? {noErrors:true})
   }
 
   get feedFormsArrayControls() {
@@ -123,11 +106,11 @@ export class AddFeedComponent implements OnInit {
       if (Object.prototype.hasOwnProperty.call(this.feedFormsArrayControls, singleFormGroup)) {
         const currentFormGroup = formArray.get(singleFormGroup) as FormGroup;
 
-        console.log(currentFormGroup, 'current form Group');
         const currentFeedTypeControl = currentFormGroup.get('type')!.value
-        this.handleFormControlValidators(currentFeedTypeControl, currentFormGroup)
+        // this.handleFormControlValidators(currentFeedTypeControl, currentFormGroup)
 
-        if (currentFormGroup.invalid) return
+        console.log('is form group valid ? ', currentFormGroup.invalid)
+        if (!currentFormGroup.invalid) return
 
         console.log('can proceed')
 
@@ -140,24 +123,38 @@ export class AddFeedComponent implements OnInit {
         }
 
         console.log(newFeedSource)
-        this.feedService.addFeedSource(newFeedSource)
+        console.log('here I should save')
+        // this.feedService.addFeedSource(newFeedSource)
 
       }
     }
   }
 
-  handleFormControlValidators(inputType:string, innerForm: FormGroup) {
+  handleGroupValidator(inputType:string, innerForm: FormGroup) {
     const nameControl = innerForm.get('name')! as FormControl
     const urlControl = innerForm.get('url')! as FormControl
 
 
     if (inputType === 'reddit') {
-      nameControl.setAsyncValidators([validateSubredditWithPromise()])
+      // urlControl.removeValidators([isRequired()])
+
+      urlControl.clearValidators()
+      urlControl.clearAsyncValidators()
+      urlControl.updateValueAndValidity()
+
+      nameControl.setAsyncValidators([this.subredditValidator.validateSubredditDebounced()])
       nameControl.updateValueAndValidity()
+
     } else {
       urlControl.setValidators([isRequired()])
       urlControl.updateValueAndValidity()
+
+      nameControl.clearAsyncValidators();
+      nameControl.updateValueAndValidity();
     }
+
+    console.log(urlControl.errors)
+    console.log(nameControl.errors)
 
   }
 
@@ -178,6 +175,15 @@ export class AddFeedComponent implements OnInit {
       feedUrl: targetUrl!.value,
       type: 'rss'
     }
+  }
+
+  getControlError(groupIndex: number, controlName: string): string | null {
+    const control = this.addForms.at(groupIndex).get(controlName)
+    if (control && control.invalid && (control.dirty || control.touched)) {
+      const errors = control.errors!;
+      return errors['message']
+    }
+    return null
   }
 
 }

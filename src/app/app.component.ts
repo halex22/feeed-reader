@@ -16,7 +16,7 @@ import { FeedListComponent } from "./components/feed/feed-list/feed-list.compone
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MatButtonModule, RouterOutlet, HeadComponent, MatSidenavModule, MatIcon, RouterLink, FeedListComponent],
+  imports: [MatButtonModule, RouterOutlet, HeadComponent, MatSidenavModule, MatIcon, RouterLink],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
