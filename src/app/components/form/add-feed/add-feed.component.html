@@ -19,17 +19,13 @@
           <mat-label> {{ form.get('type')?.value === 'reddit' ? 'Enter sub reddit name' : 'News Provider '}}</mat-label>
           <input matInput [placeholder]="form.get('type')?.value ==='reddit' ? 'r/...': 'name of your choice' " formControlName="name">
           <mat-icon matSuffix>edit</mat-icon>
-          @if (form.touched && form.dirty) {
-            <mat-hint >
-              <!-- @for (errorMsg of logAFormGroup(form , 'name'); track $index) {
-                <span class="err-msg">{{errorMsg}}</span>
-              } -->
-            </mat-hint>
-          }
-          
+          <mat-hint >
+            <div *ngIf="getControlError(i, 'name') as typeError">
+              <p>{{typeError}}</p>
+            </div>
+          </mat-hint>         
         </mat-form-field>
       </div>
-      <!-- <p>{{logAFormGroup(form , 'name')}}</p> -->
 
 
       @if (form.get('type')?.value !=='reddit') {
@@ -38,18 +34,14 @@
             <mat-label>Url to request</mat-label>
             <input matInput placeholder="Placeholder" formControlName="url">
             <mat-icon matSuffix>link</mat-icon>
-            <mat-hint>
-              <!-- @for (errorMsg of logAFormGroup(form , 'url'); track errorMsg) {
-                <span class="err-msg">{{errorMsg}}</span>
-              } -->
-            </mat-hint>
+              <mat-hint >
+                <div *ngIf="getControlError(i, 'url') as typeError">
+                  <p>{{typeError}}</p>
+                </div>
+              </mat-hint> 
           </mat-form-field>
         </div>
-
-        <p></p>
       }
-
-      
 
       <button mat-icon-button class="delete-btn" (click)="deleteForm(i)" type="button">
         <mat-icon class="btn-delete">delete</mat-icon>
@@ -58,9 +50,10 @@
 
   </div>
   
-<div class="btn-offDiv">
-  <button mat-stroked-button  type="button" (click)="addBlankForm()">add another feed</button>
-  <button mat-stroked-button>save</button>
-</div>
+  <div class="btn-offDiv">
+    <button mat-stroked-button  type="button" (click)="addBlankForm()">add another feed</button>
+    <button mat-stroked-button>save</button>
+  </div>
 
 </form>
+

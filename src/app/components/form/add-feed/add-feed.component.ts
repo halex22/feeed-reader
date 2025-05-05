@@ -21,6 +21,8 @@ import { includesEmptySpaces } from '../validators/emptySpaces';
 import { validateSubredditWithPromise } from '../validators/async/isValidReddit';
 import { isHealthyUrl } from '../validators/async/ishealthyLink';
 import { SubredditValidatorService } from '../validators/async/test';
+import { NgIf } from '@angular/common';
+import { ContentObserver } from '@angular/cdk/observers';
 
 @Component({
   selector: 'app-add-feed',
@@ -33,6 +35,7 @@ import { SubredditValidatorService } from '../validators/async/test';
     MatIconModule,
     MatInputModule,
     CommonModule,
+    NgIf
   ],
   templateUrl: './add-feed.component.html',
   styleUrl: './add-feed.component.scss',
@@ -58,7 +61,6 @@ export class AddFeedComponent implements OnInit {
     const group = new FormGroup({
       name: new FormControl('', {
         validators: [isRequired(), minNameLength(), includesEmptySpaces()],
-        // asyncValidators: [this.subredditValidator.validateSubredditDebounced()],
       }),
       type: new FormControl<'reddit' | 'base'>('reddit', {
         validators: [isRequired()],
@@ -87,30 +89,36 @@ export class AddFeedComponent implements OnInit {
     this.addForms.removeAt(innerFormId);
   }
 
-
-  logAFormGroup(group: AbstractControl, controlName: string) {
-    const errors = []
-    const currentGroup = group as FormGroup
-    return Object.values(currentGroup.get(controlName)?.errors ?? {noErrors:true})
-  }
-
   get feedFormsArrayControls() {
     return this.bigForm.controls.addFeedForms.controls
+  }
+
+  logControlErrors(group: FormGroup) {
+    for (const controlName in group.controls) {
+      if (Object.prototype.hasOwnProperty.call(group.controls, controlName)) {
+        const control = group.get(controlName);
+        console.log(control)
+      }
+    }
   }
 
   onSubmit() {
     const formArray = this.bigForm.controls.addFeedForms;
 
+    console.log(formArray.valid)
+    if (!formArray.invalid) return 
 
     for (const singleFormGroup in this.feedFormsArrayControls) {
       if (Object.prototype.hasOwnProperty.call(this.feedFormsArrayControls, singleFormGroup)) {
         const currentFormGroup = formArray.get(singleFormGroup) as FormGroup;
 
         const currentFeedTypeControl = currentFormGroup.get('type')!.value
-        // this.handleFormControlValidators(currentFeedTypeControl, currentFormGroup)
 
-        console.log('is form group valid ? ', currentFormGroup.invalid)
-        if (!currentFormGroup.invalid) return
+        console.log('is form group valid ? ', currentFormGroup.valid)
+        if (!currentFormGroup.valid) {
+          this.logControlErrors(currentFormGroup)
+          return
+        }
 
         console.log('can proceed')
 
@@ -134,28 +142,18 @@ export class AddFeedComponent implements OnInit {
     const nameControl = innerForm.get('name')! as FormControl
     const urlControl = innerForm.get('url')! as FormControl
 
-
     if (inputType === 'reddit') {
-      // urlControl.removeValidators([isRequired()])
-
       urlControl.clearValidators()
       urlControl.clearAsyncValidators()
       urlControl.updateValueAndValidity()
-
       nameControl.setAsyncValidators([this.subredditValidator.validateSubredditDebounced()])
       nameControl.updateValueAndValidity()
-
     } else {
       urlControl.setValidators([isRequired()])
       urlControl.updateValueAndValidity()
-
       nameControl.clearAsyncValidators();
       nameControl.updateValueAndValidity();
     }
-
-    console.log(urlControl.errors)
-    console.log(nameControl.errors)
-
   }
 
   private handleRedditFeedCreation(control: AbstractControl): FeedSource {
