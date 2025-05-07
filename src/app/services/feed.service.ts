@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Feed, FeedSource } from '../models/feed';
 import { RssReader } from '../models/rssReader';
 import { RedditReader } from '../models/redditReader';
@@ -67,5 +67,8 @@ export class FeedService {
     localStorage.setItem(this.FAVORITE_NEWS, JSON.stringify(newFav))
   }
 
+  deleteFeedSource(sourceName: string) {
+    this.sources = this.sources.filter( s => s.feedName !== sourceName)
+  }
 
 }
