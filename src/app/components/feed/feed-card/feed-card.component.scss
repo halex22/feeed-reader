@@ -20,6 +20,20 @@ mat-card-subtitle {
   color: #666;
 }
 
+span {
+
+  color: white;
+  
+  &:hover{
+    color: rgb(246, 77, 77);
+  }
+
+  &:active {
+    color: crimson;
+
+  }
+}
+
 
 mat-card-content {
   display: flex;

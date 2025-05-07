@@ -30,8 +30,8 @@ export class FeedCardComponent {
     }
 
     console.log('your are trying yo add this feed', feed)
-    this.feedService.saveNew(feed)
-    alert('news was added to favorites')
+    this.feedService.saveNewToFav(feed)
+    // alert('news was added to favorites')
   }
   
 }

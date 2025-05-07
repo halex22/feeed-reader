@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FeedService } from '../../services/feed.service';
 import { Feed } from '../../models/feed';
 import { signal } from '@angular/core';
@@ -13,9 +13,10 @@ import { FeedListComponent } from '../feed/feed-list/feed-list.component';
 })
 export class FavComponent {
 
-  feedNews = signal<Feed[]>([])
+  feedService = inject(FeedService)
+  feedNews = this.feedService.favNews
 
-  constructor (private feedService: FeedService) {
-    this.feedNews.set(this.feedService.loadSavedNews())
-  }
+  // constructor () {
+  //   this.feedNews.set(this.feedService.loadSavedNews())
+  // }
 }

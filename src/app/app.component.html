@@ -5,15 +5,20 @@
   <mat-drawer [opened]="isHomeSidenavOpen" #drawer class="sidenav" mode="push" position="start">
       
     <ul>
-      @for (source of feedSources; track $index) {
+      @for (source of feedSources(); track $index) {
         
         <li class="feed-container">
           <a mat-list-item [routerLink]="['/feed', source.feedName]">
             {{source.feedName}}
           </a>
           <div class="feed-options">
-            <mat-icon>delete</mat-icon>
-            <mat-icon>edit</mat-icon>
+            <span (click)="HandleFormDelete(source.feedName)">
+              <mat-icon>delete</mat-icon>
+            </span>
+            
+            <span>
+              <mat-icon>edit</mat-icon>
+            </span>
           </div>
         </li>
       } @empty {

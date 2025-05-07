@@ -1,4 +1,4 @@
-import { Component, input, OnInit, signal } from '@angular/core';
+import { Component, input, signal, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeadComponent } from './components/head/head.component';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,7 +10,6 @@ import { FeedService } from './services/feed.service';
 import { Feed } from './models/feed';
 import { RedditReader } from './models/redditReader';
 import { RssReader } from './models/rssReader';
-import { FeedListComponent } from './components/feed/feed-list/feed-list.component';
 
 @Component({
   selector: 'app-root',
@@ -30,16 +29,18 @@ export class AppComponent {
   showFiller = false;
   title = 'feeed-reader';
 
+  feedService = inject(FeedService)
+
   selectFeed = signal<FeedSource | null>(null);
 
   isHomeSidenavOpen = false;
 
-  feedSources: FeedSource[];
+  feedSources = this.feedService.sources
 
   feedNews = signal<Feed[]>([]);
 
-  constructor(private feedService: FeedService) {
-    this.feedSources = this.feedService.loadFeedSources();
+  constructor() {
+    // this.feedSources = this.feedService.loadFeedSources();
     if (!this.selectFeed()) {
       // prendere tutti le news di tutti i feed
     } else {
@@ -64,7 +65,7 @@ export class AppComponent {
   loadFeedNames() {}
 
   HandleFormDelete(feedName: string) {
-    
+    this.feedService.deleteFeedSource(feedName)
   }
 
 
